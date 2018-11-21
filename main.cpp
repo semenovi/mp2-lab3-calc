@@ -3,7 +3,8 @@
 #include <iostream>
 int main()
 {
-	calc a("-123+(45-8*65)*3");
-	a.print_reversed();
+	calc a("while{i<h;34}");
+	double b = a.get_result();
+	std::cout << b << std::endl;
 	return 0;
 }
