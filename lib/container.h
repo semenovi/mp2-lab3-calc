@@ -4,7 +4,7 @@
 class lexem
 {
 public:
-	int type; //0 - double, 1 - string, 2 - variable, 3 - init, 4 - cycle
+	int type; //0 - double, 1 - string, 2 - variable, 3 - init, 4 - cycle, 5 - function call
 	lexem() : d_value(0), s_value(""), type(0) {}
 	lexem(double v) : d_value(v), s_value(""), type(0) {}
 	lexem(std::string v) : d_value(0), s_value(v), type(1) {}
@@ -41,6 +41,56 @@ public:
 		d_value = s.d_value;
 		s_value = s.s_value;
 		return *this;
+	}
+};
+class functions
+{
+public:
+	std::string name[50];
+	std::string body[50];
+	std::string input;
+	int fts_cnt;
+	functions(std::string _input = "") : input(_input), fts_cnt(0) {}
+	void add_function(std::string _name, std::string _body)
+	{
+		name[fts_cnt] = _name;
+		body[fts_cnt] = _body;
+		fts_cnt++;
+	}
+	functions operator=(const functions &s)
+	{
+		input = s.input;
+		fts_cnt = s.fts_cnt;
+		for (int i = 0; i <= s.fts_cnt; i++)
+		{
+			name[i] = s.name[i];
+			body[i] = s.body[i];
+		}
+		return *this;
+	}
+};
+class state
+{
+	//std::string input, lexem _vars[50] = nullptr, int _vars_cnt = 0
+public:
+	std::string input;
+	lexem vars[50];
+	int vars_cnt;
+	double last_output;
+	functions fts;
+	state(std::string _input, lexem _vars[50] = nullptr, int _vars_cnt = 0, functions _fts = functions())
+	{
+		input = _input;
+		if (_vars != nullptr)
+		{
+			for (int i = 0; i < _vars_cnt; i++)
+			{
+				vars[i] = _vars[i];
+			}
+		}
+		vars_cnt = _vars_cnt;
+		fts = _fts;
+		last_output = 0;
 	}
 };
 class stack
